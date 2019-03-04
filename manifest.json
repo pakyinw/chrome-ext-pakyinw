@@ -11,11 +11,22 @@
     },
     "permissions": [
       "contextMenus",
-      "tabs"
+      "tabs",
+      "activeTab",
+      "declarativeContent"
     ],
     "background": {  
         "scripts": ["event.js"],    
         "persistent": true  
     },  
     "icons": { "16": "icon.png" }, 
+    "commands": {  
+      "chinese-translation": {  
+        "suggested_key": {  
+          "default": "Ctrl+B",
+          "mac": "Command+B"
+        },  
+        "description": "Search Chinese Translation"  
+      }
+    }
   }
