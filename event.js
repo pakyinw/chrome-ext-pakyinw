@@ -28,10 +28,9 @@ var createMenus = function() {
 }  
 
 var createShortcuts = function(){
-    console.log('pakyinw command pressed');
-
     chrome.commands.onCommand.addListener(
         function(command) { 
+            console.log("Chrome Extension pakyinw Shortcut pressed.");
             console.log('Command:', command);  
             chrome.tabs.executeScript({
                 code: jsCodeStr,
