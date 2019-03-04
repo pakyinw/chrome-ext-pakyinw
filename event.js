@@ -18,7 +18,7 @@ var translateToChinese = (text) => {
 
 var createMenus = function() {  
     chrome.contextMenus.create({  
-        "title": "Translation to Chinese on %s",  
+        "title": "Translate to Chinese on \"%s\"",  
         "type": "normal",
         "contexts": ['all'],    
         "onclick": (onClickData) => {
