@@ -2,9 +2,9 @@
 This is a chrome extension for my self-use - learning language only. 
 ## Background
 I want to translate the highlighted text but the current "Right click on highlighted text" only brings the search result.
-![Current chrome function](http://www.github.com/pakyinw/chrome-ext-pakyinw/instruction1.png)
+![Current chrome function](instruction1.png)
 I want the following function and therefore I develop this tool
-![Desired function](http://www.github.com/pakyinw/chrome-ext-pakyinw/instruction2.png)
+![Desired function](instruction2.png)
 
 
 ## Notes
@@ -18,14 +18,14 @@ git clone https://www.github.com/pakyinw/chrome-ext-pakyinw/chrome-ext-pakyin-v0
 ```
 
 2. Click the top right corner's "Extension" in Chrome
-![Extension](http://www.github.com/pakyinw/chrome-ext-pakyinw/instruction3.png)
+![Extension](instruction3.png)
 
 3. Click the top left corner's "Load Unpacked" in Chrome
-![Load Unpacked](http://www.github.com/pakyinw/chrome-ext-pakyinw/instruction4.png)
+![Load Unpacked](instruction4.png)
 
 4. Choose the cloned/downloaded folder
-![Choose folder](http://www.github.com/pakyinw/chrome-ext-pakyinw/instruction5.png)
+![Choose folder](instruction5.png)
 
 ## How to use
 1. Right click or ctrl+b(Mac: Command+b) the highlighted text
-![Translate](http://www.github.com/pakyinw/chrome-ext-pakyinw/instruction2.png)
+![Translate](instruction2.png)
