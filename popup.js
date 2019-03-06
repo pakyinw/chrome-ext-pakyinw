@@ -4,23 +4,22 @@ var getDatetime = (t) => {
 }
 
 var exportCSV = () => {
-    let csvContent = "data:text/csv;charset=utf-8,";
     chrome.storage.sync.get(null,(items)=>{
         var allKeys = Object.keys(items);
         if (allKeys.length > 0){
+            let csvContent = "data:text/csv;charset=utf-8,";
             allKeys.forEach((key,index)=>{
-                csvContent += getDatetime(key) + ',' + items[key].text + ',' + items[key].url + "\r\n";
+                csvContent += key + ',' + items[key].text + ',' + items[key].url + "\r\n";
             })
+            var encodedUri = encodeURI(csvContent);
+            var link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "vocab_" + new Date().toLocaleDateString() + ".csv");
+            document.body.appendChild(link); // Required for FF    
+            link.click();
         }
     });
-    
-    var encodedUri = encodeURI(csvContent);
-    var link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "vocab_" + new Date().toLocaleDateString() + ".csv");
-    document.body.appendChild(link); // Required for FF
-    
-    link.click();
+
 }
 
 document.getElementById("btnExport").addEventListener("click", exportCSV);
