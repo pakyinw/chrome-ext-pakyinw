@@ -1,4 +1,4 @@
-var getSelectionText = function() {
+var getSelectionText = () => {
     var selection = window.getSelection();
     return (selection.rangeCount > 0) ? selection.toString() : '';
 };
@@ -16,7 +16,7 @@ var translateToChinese = (text) => {
     )
 }
 
-var createMenus = function() {  
+var createMenus = () => {  
     chrome.contextMenus.create({  
         "title": "Translate to Chinese on \"%s\"",  
         "type": "normal",
@@ -27,16 +27,16 @@ var createMenus = function() {
     });  
 }  
 
-var createShortcuts = function(){
+var createShortcuts = () => {
     chrome.commands.onCommand.addListener(
-        function(command) { 
+        (command) => { 
             console.log("Chrome Extension pakyinw Shortcut pressed.");
             console.log('Command:', command);  
             chrome.tabs.executeScript({
                 code: jsCodeStr,
                 allFrames: true   //  <-- inject into all frames, as the selection 
                                   //      might be in an iframe, not the main page
-            }, function(selectedTextPerFrame) {
+            }, (selectedTextPerFrame) => {
                 if (chrome.runtime.lastError) {
                     console.log('ERROR:\n' + chrome.runtime.lastError.message);
                 } else if ((selectedTextPerFrame.length > 0)
