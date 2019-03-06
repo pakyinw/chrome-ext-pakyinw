@@ -1,4 +1,4 @@
-# chrome-ext-pakyinw-v0
+# chrome-ext-pakyinw
 This is a chrome extension for my self-use only. 
 
 ## Background
