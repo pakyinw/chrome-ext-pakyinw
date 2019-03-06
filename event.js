@@ -6,6 +6,16 @@ var getSelectionText = () => {
 var jsCodeStr = ';(' + getSelectionText + ')();';
 
 var translateToChinese = (text) => {
+    chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, (tabs) => {
+        var url = tabs[0].url;
+        var info = {}, obj = {}
+        info["text"] = text
+        info["url"] = url
+        obj[Date.now()] = info;
+        chrome.storage.sync.set(obj,()=>{
+            console.log("Record Finished")
+        })
+    });
     chrome.tabs.create(
         {
             url: "https://www.google.com/search?q=" + text +"+中文"

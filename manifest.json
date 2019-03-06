@@ -13,7 +13,8 @@
       "contextMenus",
       "tabs",
       "activeTab",
-      "declarativeContent"
+      "declarativeContent",
+      "storage"
     ],
     "background": {  
         "scripts": ["event.js"],    

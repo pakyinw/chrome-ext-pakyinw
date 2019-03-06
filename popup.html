@@ -1,8 +1,26 @@
 <html>
     <head>
-        <link href="./popup.css">
+        <link rel="stylesheet" type="text/css" href="./popup.css">
     </head>
     <body>
         <p>Don't blame the bugs.</p>
+        <p>
+            <button id="btnExport">export</button>&#xA0;
+            <input type="file" id="selectedFile" style="display: none;" />
+            <button id="btnImport">import</button>
+        </p>
+        <div class="divTable">
+            <div class="divTableBody" id="divTableHead">
+                <div class="divTableRow">
+                    <div class="divTableCell">Date/Time</div>
+                    <div class="divTableCell">Text</div>
+                    <div class="divTableCell">Url</div>
+                </div>
+            </div>
+            <div class="divTableBody" id="divTableBody">
+            </div>
+        </div>
+        <script src="./func.js"></script>
+        <script src="./popup.js"></script>
     </body>
 </html>
