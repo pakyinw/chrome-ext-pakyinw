@@ -1,6 +1,10 @@
 # chrome-ext-pakyinw
 This is a chrome extension for my self-use only. 
 
+## Tech used
+- Vanilla JS
+- Chrome extension library
+
 ## Background
 I want to translate the highlighted text but the current "Right click on highlighted text" only brings the search result.
 
