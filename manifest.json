@@ -17,17 +17,38 @@
       "storage"
     ],
     "background": {  
-        "scripts": ["event.js"],    
+        "scripts": ["event.js","global_event.js"],    
         "persistent": true  
     },  
     "icons": { "16": "icon.png" }, 
     "commands": {  
-      "chinese-translation": {  
+      "germanToChinese": {  
         "suggested_key": {  
           "default": "Ctrl+B",
           "mac": "Command+B"
         },  
-        "description": "Search Chinese Translation"  
+        "description": "German-Chinese"  
+      },
+      "englishToChinese": {  
+        "suggested_key": {  
+          "default": "Ctrl+U",
+          "mac": "Command+U"
+        },  
+        "description": "English-Chinese"  
+      },
+      "japaneseToChinese": {  
+        "suggested_key": {  
+          "default": "Ctrl+I",
+          "mac": "Command+I"
+        },  
+        "description": "Japanese-Chinese"  
+      },
+      "computer": {  
+        "suggested_key": {  
+          "default": "Ctrl+K",
+          "mac": "Command+K"
+        },  
+        "description": "Computer"  
       }
     }
   }
