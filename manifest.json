@@ -17,7 +17,7 @@
       "storage"
     ],
     "background": {  
-        "scripts": ["event.js"],    
+        "scripts": ["event.js","global_event.js"],    
         "persistent": true  
     },  
     "icons": { "16": "icon.png" }, 

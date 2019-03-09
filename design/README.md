@@ -4,3 +4,4 @@ https://stackoverflow.com/questions/14964035/how-to-export-javascript-array-info
 https://stackoverflow.com/questions/36324333/refused-to-execute-inline-event-handler-because-it-violates-csp-sandbox
 https://stackoverflow.com/questions/1084925/input-type-file-show-only-button
 https://stackoverflow.com/questions/29393064/reading-in-a-local-csv-file-in-javascript
+https://stackoverflow.com/questions/46306148/chrome-61-unexpected-token-import
