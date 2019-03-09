@@ -5,17 +5,31 @@ var getSelectionText = () => {
 
 var jsCodeStr = ';(' + getSelectionText + ')();';
 
+var saveToStorage = (text) => (tabs) => {
+    var url = tabs[0].url;
+    var info = {}, obj = {}
+    info["text"] = text
+    info["url"] = url
+    obj[Date.now()] = info;
+    chrome.storage.sync.set(obj,()=>{
+        console.log("Record Finished")
+    })
+}
+
+var processSelectedText = (selectedTextPerFrame) => {
+    if (chrome.runtime.lastError) {
+        console.log('ERROR:\n' + chrome.runtime.lastError.message);
+    } else if ((selectedTextPerFrame.length > 0)
+            && (typeof(selectedTextPerFrame[0]) === 'string')) {
+        console.log('Selected text: ' + selectedTextPerFrame[0]);
+        if(command == "chinese-translation"){
+            translateToChinese(selectedTextPerFrame[0]);
+        }  
+    }
+}
+
 var translateToChinese = (text) => {
-    chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, (tabs) => {
-        var url = tabs[0].url;
-        var info = {}, obj = {}
-        info["text"] = text
-        info["url"] = url
-        obj[Date.now()] = info;
-        chrome.storage.sync.set(obj,()=>{
-            console.log("Record Finished")
-        })
-    });
+    chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, saveToStorage(text));
     chrome.tabs.create(
         {
             url: "https://www.google.com/search?q=" + text +"+中文"
@@ -44,19 +58,8 @@ var createShortcuts = () => {
             console.log('Command:', command);  
             chrome.tabs.executeScript({
                 code: jsCodeStr,
-                allFrames: true   //  <-- inject into all frames, as the selection 
-                                  //      might be in an iframe, not the main page
-            }, (selectedTextPerFrame) => {
-                if (chrome.runtime.lastError) {
-                    console.log('ERROR:\n' + chrome.runtime.lastError.message);
-                } else if ((selectedTextPerFrame.length > 0)
-                        && (typeof(selectedTextPerFrame[0]) === 'string')) {
-                    console.log('Selected text: ' + selectedTextPerFrame[0]);
-                    if(command == "chinese-translation"){
-                        translateToChinese(selectedTextPerFrame[0]);
-                    }  
-                }
-            });
+                allFrames: true
+            }, processSelectedText);
         }
     );
 }
