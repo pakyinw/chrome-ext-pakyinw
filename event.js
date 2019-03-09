@@ -1,38 +1,45 @@
-var getSelectionText = () => {
-    var selection = window.getSelection();
-    return (selection.rangeCount > 0) ? selection.toString() : '';
-};
+const langPhrase =
+{
+    "germanToChinese" : "+中文",
+    "japaneseToChinese" : "+中文",
+    "englishToChinese" : "+中文",
+    "computer" : "",
+}
+
+var getSelectionText = () => (window.getSelection().rangeCount > 0) ? window.getSelection().toString().trim() : '';
 
 var jsCodeStr = ';(' + getSelectionText + ')();';
 
-var saveToStorage = (text) => (tabs) => {
+var saveToStorage = (text, lang) => (tabs) => {
     var url = tabs[0].url;
     var info = {}, obj = {}
     info["text"] = text
     info["url"] = url
+    info["lang"] = lang
     obj[Date.now()] = info;
     chrome.storage.sync.set(obj,()=>{
         console.log("Record Finished")
     })
 }
 
-var processSelectedText = (selectedTextPerFrame) => {
+var processSelectedText = (lang) => (selectedTextPerFrame) => {
+    console.log ("processSelectedText(lang) - lang: " + lang)
+    console.log ("selectedTextPerFrame.length: " + selectedTextPerFrame.length)
+    console.log ("typeof(selectedTextPerFrame[0]): " + typeof(selectedTextPerFrame[0]))
     if (chrome.runtime.lastError) {
         console.log('ERROR:\n' + chrome.runtime.lastError.message);
     } else if ((selectedTextPerFrame.length > 0)
             && (typeof(selectedTextPerFrame[0]) === 'string')) {
         console.log('Selected text: ' + selectedTextPerFrame[0]);
-        if(command == "chinese-translation"){
-            translateToChinese(selectedTextPerFrame[0]);
-        }  
+        translate(selectedTextPerFrame[0],lang);
     }
 }
 
-var translateToChinese = (text) => {
-    chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, saveToStorage(text));
+var translate = (text, lang) => {
+    chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, saveToStorage(text, lang));
     chrome.tabs.create(
         {
-            url: "https://www.google.com/search?q=" + text +"+中文"
+            url: "https://www.google.com/search?q=" + text + langPhrase[lang]
         }, 
         ()=>{
             console.log("Translation finished")
@@ -40,15 +47,24 @@ var translateToChinese = (text) => {
     )
 }
 
-var createMenus = () => {  
-    chrome.contextMenus.create({  
-        "title": "Translate to Chinese on \"%s\"",  
+var createMenuInfo = (title, lang) => {
+    let menuInfo =  {
         "type": "normal",
-        "contexts": ['all'],    
-        "onclick": (onClickData) => {
-            translateToChinese(onClickData.selectionText)
-        }
-    });  
+        "contexts": ['all'], 
+    }
+    menuInfo["title"] = title;
+    menuInfo["onclick"] = (onClickData) => {
+        translate(onClickData.selectionText, lang)
+    }
+    return menuInfo;
+}
+
+var createMenus = () => {
+    chrome.contextMenus.create(createMenuInfo("German - Chinese on \"%s\"","germanToChinese"))
+    chrome.contextMenus.create(createMenuInfo("English - Chinese on \"%s\"","englishToChinese"))
+    chrome.contextMenus.create(createMenuInfo("Japanese - Chinese on \"%s\"","japaneseToChinese"))
+    chrome.contextMenus.create(createMenuInfo("Chinese on \"%s\"","chinese"))
+    chrome.contextMenus.create(createMenuInfo("Computer Language on \"%s\"","computer"))
 }  
 
 var createShortcuts = () => {
@@ -59,7 +75,7 @@ var createShortcuts = () => {
             chrome.tabs.executeScript({
                 code: jsCodeStr,
                 allFrames: true
-            }, processSelectedText);
+            }, processSelectedText(command));
         }
     );
 }
