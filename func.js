@@ -1,11 +1,11 @@
 // functions
 import {langId} from './global_popup.js'
 
-var getDatetime = (t) =>  new Date(Number(t)).toLocaleString()
+const getDatetime = (t) =>  new Date(Number(t)).toLocaleString()
 
-var exportCSV = () => {
+const exportCSV = () => {
     chrome.storage.sync.get(null,(items)=>{
-        var allKeys = Object.keys(items);
+        let allKeys = Object.keys(items);
         if (allKeys.length > 0){
             let csvContent = "data:text/csv;charset=utf-8,";
             allKeys.forEach((key,index)=>{
@@ -21,11 +21,11 @@ var exportCSV = () => {
     });
 }
 
-var importCSV = () => {
+const importCSV = () => {
     document.getElementById('selectedFile').click();
 }
 
-var readFile = () => {
+const readFile = () => {
     console.log("func readFile started")
     var reader = new FileReader();
     reader.onload = () => {
@@ -57,7 +57,7 @@ var readFile = () => {
     reader.readAsBinaryString(document.getElementById("selectedFile").files[0]);
 }
 
-var drawVocab = () => {
+const drawVocab = () => {
     chrome.storage.sync.get(null,(items)=>{
         Object.keys(langId).forEach((key,index) => {
             if (langId[key]) {
@@ -73,13 +73,25 @@ var drawVocab = () => {
                 console.log("time: " + getDatetime(key))
                 console.log("text: " + items[key].text)
                 console.log("url: " + items[key].url)
-                drawVocabTable(langId[items[key].lang], getDatetime(key) , items[key].text, items[key].url)
+                drawVocabTable(langId[items[key].lang], key , items[key].text, items[key].url)
             })
         }
     });
 }
 
-var drawVocabTable = (id,date,text,url) =>
-    document.getElementById(id).innerHTML += "<div class='divTableRow'><div class='divTableCell'>" + date +"</div><div class='divTableCell'>" + text + "</div><div class='divTableCell'><a target='_blank' rel='noopener noreferrer' href='" + url + "'>here</a></div></div>"
+const remove = (key) => () => {
+    chrome.storage.sync.remove(key,()=>{
+        drawVocab()
+        console.log("Record Finished")
+    })
+}
+
+const drawVocabTable = (id, key, text,url) =>{
+    document.getElementById(id).innerHTML += "<div class='divTableRow'><div class='divTableCell'><a id='" + key + "' href='#'>remove</a></div><div class='divTableCell'>" + getDatetime(key) +"</div><div class='divTableCell'>" + text + "</div><div class='divTableCell'><a target='_blank' rel='noopener noreferrer' href='" + url + "'>here</a></div></div>"
+    document.getElementById(key).addEventListener("click", remove(key));
+}
+
+
+    
 
 export {exportCSV, importCSV, readFile, drawVocab};
